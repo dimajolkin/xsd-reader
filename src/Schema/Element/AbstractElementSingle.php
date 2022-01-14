@@ -38,6 +38,11 @@ class AbstractElementSingle extends Item implements ElementSingle
      */
     protected $default = null;
 
+    /**
+     * @var string|bool|null
+     */
+    protected $fixed = null;
+
     public function isQualified(): bool
     {
         return $this->qualified;
@@ -96,5 +101,15 @@ class AbstractElementSingle extends Item implements ElementSingle
     public function setDefault(string $default): void
     {
         $this->default = $default;
+    }
+
+    public function getFixed()
+    {
+        return $this->fixed;
+    }
+
+    public function setFixed($fixed): void
+    {
+        $this->fixed = $fixed;
     }
 }

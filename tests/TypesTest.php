@@ -185,6 +185,35 @@ class TypesTest extends BaseTest
         $this->assertEquals('testDefault', $elements[0]->getDefault());
     }
 
+    public function providerElementFixed(): array
+    {
+        return [
+            ['testFixed', 'testFixed'],
+            [true, 'true'],
+            [false, 'false'],
+        ];
+    }
+
+    /**
+     * @dataProvider providerElementFixed
+     */
+    public function testElementFixed($expected, $actual)
+    {
+        $schema = $this->reader->readString(
+            sprintf('
+            <xs:schema targetNamespace="http://www.example.com" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                <xs:complexType name="complexType">
+                    <xs:sequence>
+                        <xs:element fixed="%s" name="el1" nillable="true" type="xs:string" form="qualified"></xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:schema>', $actual));
+
+        $complex = $schema->findType('complexType', 'http://www.example.com');
+        $elements = $complex->getElements();
+        $this->assertEquals($expected, $elements[0]->getFixed());
+    }
+
     public function testComplex()
     {
         $schema = $this->reader->readString(

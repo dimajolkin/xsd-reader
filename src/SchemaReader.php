@@ -338,6 +338,20 @@ class SchemaReader
         }
     }
 
+    private static function maybeSetFixed(InterfaceSetDefault $ref, DOMElement $node): void
+    {
+        if ($node->hasAttribute('fixed')) {
+            $value = $node->getAttribute('fixed');
+            if ($value === 'true') {
+                $ref->setFixed(true);
+            } elseif ($value === 'false') {
+                $ref->setFixed(false);
+            } else {
+                $ref->setFixed($value);
+            }
+        }
+    }
+
     private function loadSequence(ElementContainer $elementContainer, DOMElement $node, int $max = null): void
     {
         $max =
@@ -1369,6 +1383,7 @@ class SchemaReader
         self::maybeSetMax($element, $node);
         self::maybeSetMin($element, $node);
         self::maybeSetDefault($element, $node);
+        self::maybeSetFixed($element, $node);
 
         $xp = new \DOMXPath($node->ownerDocument);
         $xp->registerNamespace('xs', 'http://www.w3.org/2001/XMLSchema');
