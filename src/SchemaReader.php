@@ -188,7 +188,7 @@ class SchemaReader
         DOMElement $node
     ): AttributeItem {
         if ($childNode->hasAttribute('ref')) {
-            $attribute = $this->findAttributeItem($schema, $node, $childNode->getAttribute('ref'));
+            $attribute = clone $this->findAttributeItem($schema, $node, $childNode->getAttribute('ref'));
             if ($childNode->hasAttribute('fixed')) {
                 $attribute->setFixed($childNode->getAttribute('fixed'));
             }
